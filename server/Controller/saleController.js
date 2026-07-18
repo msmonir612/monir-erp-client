@@ -52,7 +52,6 @@ const getSale = async (req, res) => {
 const createSale = async (req, res) => {
   try {
     const {
-      invoiceNo,
       customer,
       saleDate,
       items,
@@ -177,7 +176,16 @@ const profit = (salePrice - purchasePrice) * quantity;
     customerData.currentDue += dueAmount;
 
     await customerData.save();
+// Last Invoice বের করো
+const lastSale = await Sale.findOne().sort({ createdAt: -1 });
 
+let invoiceNo = "INV-000001";
+
+if (lastSale) {
+  const lastNumber = parseInt(lastSale.invoiceNo.split("-")[1]);
+
+  invoiceNo = `INV-${String(lastNumber + 1).padStart(6, "0")}`;
+}
     // ======================================
     // Save Sale
     // ======================================

@@ -13,6 +13,7 @@ const supplierRoutes = require("./Routes/supplierRoutes");
 const customerRoutes = require("./Routes/customerRoutes");
 const saleRoutes = require("./Routes/saleRoutes");
 const expenseRoutes = require("./routes/expenseRoutes.js"); 
+const settingsRoutes = require("./Routes/settingsRoutes");
 
 
 dotenv.config();
@@ -41,6 +42,8 @@ app.use("/api/sales", saleRoutes);
 app.use("/api/expense", expenseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/stock", stockRoutes);
+app.use("/api/settings", settingsRoutes);
+
 
 const PORT = process.env.PORT || 8080;
 
