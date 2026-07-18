@@ -12,7 +12,7 @@ const productRoutes = require("./Routes/productRoutes");
 const supplierRoutes = require("./Routes/supplierRoutes");
 const customerRoutes = require("./Routes/customerRoutes");
 const saleRoutes = require("./Routes/saleRoutes");
-const expenseRoutes = require("./routes/expenseRoutes.js"); 
+const expenseRoutes = require("./Routes/expenseRoutes.js"); 
 const settingsRoutes = require("./Routes/settingsRoutes");
 
 
