@@ -1,17 +1,36 @@
-# MONIR ERP
+# MONIR ERP Version
 
-Current Version: v0.1.0
+## Current Version
 
-## Release Notes
+v0.1.0
 
-### v0.1.0
-- Authentication System
+---
+
+## Release Status
+
+Development
+
+---
+
+## Release Date
+
+July 2026
+
+---
+
+## Notes
+
+Initial version of MONIR ERP.
+
+Core modules completed:
+
+- Authentication
 - Dashboard
-- Product Management
-- Purchase Management
-- Sales Management
-- Customer Management
-- Supplier Management
-- Expense Management
-- Stock Management
+- Product
+- Purchase
+- Sales
+- Customer
+- Supplier
+- Expense
+- Stock
 - Profit Calculation
