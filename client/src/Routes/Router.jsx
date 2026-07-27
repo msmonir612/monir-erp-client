@@ -14,26 +14,88 @@ import Sale from "../Pages/Sale";
 import Customer from "../Pages/Customer";
 import Expense from "../Pages/Expense";
 import Stock from "../Pages/Stock";
-import Login from "../Pages/Login";
-import Manager from "../Pages/Manager";
 
+import Login from "../Pages/Login";
+import VerifyOtp from "../Pages/VerifyOtp";
+
+import AdminSetup from "../Pages/AdminSetup";
+import AdminSetupVerify from "../Pages/AdminSetupVerify";
+
+import ForgotPassword from "../Pages/ForgotPassword";
+import ForgotPasswordVerify from "../Pages/ForgotPasswordVerify";
+import ResetPassword from "../Pages/ResetPassword";
+
+import Manager from "../Pages/Manager";
+import Settings from "../Pages/Settings";
+import Invoice from "../Pages/Invoice";
 
 const router = createBrowserRouter([
 
-  // =========================
-  // Public Route
-  // =========================
+  // ==========================================
+  // PUBLIC WEBSITE
+  // ==========================================
+
+  {
+    path: "/",
+    element: <Home />,
+  },
+
+  // ==========================================
+  // FIRST ADMIN SETUP
+  // ==========================================
+
+  {
+    path: "/setup-admin",
+    element: <AdminSetup />,
+  },
+
+  {
+    path: "/setup-admin/verify",
+    element: <AdminSetupVerify />,
+  },
+
+  // ==========================================
+  // LOGIN
+  // ==========================================
 
   {
     path: "/login",
     element: <Login />,
   },
 
+  {
+    path: "/verify-otp",
+    element: <VerifyOtp />,
+  },
 
+  // ==========================================
+  // FORGOT PASSWORD
+  // ==========================================
 
-  // =========================
-  // Protected Routes
-  // =========================
+  // Step 1:
+  // Email + Role
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
+
+  // Step 2:
+  // Verify Reset OTP
+  {
+    path: "/forgot-password/verify",
+    element: <ForgotPasswordVerify />,
+  },
+
+  // Step 3:
+  // Create New Password
+  {
+    path: "/reset-password",
+    element: <ResetPassword />,
+  },
+
+  // ==========================================
+  // PROTECTED ERP
+  // ==========================================
 
   {
     element: (
@@ -44,29 +106,23 @@ const router = createBrowserRouter([
 
     children: [
 
-      // Home
-      {
-        path: "/",
-        element: <Home />,
-      },
+      // ======================================
+      // ADMIN DASHBOARD
+      // ======================================
 
-
-
-      // Dashboard
-      // Admin + Manager
       {
         path: "/dashboard",
         element: (
-          <ProtectedRoute >
+          <ProtectedRoute roles={["admin"]}>
             <Dashboard />
           </ProtectedRoute>
         ),
       },
 
+      // ======================================
+      // ADMIN ONLY
+      // ======================================
 
-
-      // Manager Management
-      // Admin Only
       {
         path: "/manager",
         element: (
@@ -76,10 +132,10 @@ const router = createBrowserRouter([
         ),
       },
 
+      // ======================================
+      // ADMIN + MANAGER
+      // ======================================
 
-
-      // Product
-      // Admin + Manager
       {
         path: "/product",
         element: (
@@ -89,9 +145,6 @@ const router = createBrowserRouter([
         ),
       },
 
-
-
-      // Stock
       {
         path: "/stock",
         element: (
@@ -101,9 +154,6 @@ const router = createBrowserRouter([
         ),
       },
 
-
-
-      // Supplier
       {
         path: "/supplier",
         element: (
@@ -113,9 +163,15 @@ const router = createBrowserRouter([
         ),
       },
 
+      {
+        path: "/invoice/:id",
+        element: (
+          <ProtectedRoute roles={["admin", "manager"]}>
+            <Invoice />
+          </ProtectedRoute>
+        ),
+      },
 
-
-      // Purchase
       {
         path: "/purchase",
         element: (
@@ -125,9 +181,6 @@ const router = createBrowserRouter([
         ),
       },
 
-
-
-      // Sale
       {
         path: "/sale",
         element: (
@@ -137,9 +190,6 @@ const router = createBrowserRouter([
         ),
       },
 
-
-
-      // Customer
       {
         path: "/customer",
         element: (
@@ -149,9 +199,6 @@ const router = createBrowserRouter([
         ),
       },
 
-
-
-      // Expense
       {
         path: "/expense",
         element: (
@@ -161,18 +208,37 @@ const router = createBrowserRouter([
         ),
       },
 
+      // ======================================
+      // ADMIN SETTINGS
+      // ======================================
 
-
-      // 404
       {
-        path: "*",
-        element: <div>404 Not Found</div>,
+        path: "/settings",
+        element: (
+          <AdminRoute>
+            <Settings />
+          </AdminRoute>
+        ),
       },
 
     ],
   },
 
-]);
+  // ==========================================
+  // 404
+  // ==========================================
 
+  {
+    path: "*",
+    element: (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-3xl font-bold">
+          404 - Page Not Found
+        </h1>
+      </div>
+    ),
+  },
+
+]);
 
 export default router;

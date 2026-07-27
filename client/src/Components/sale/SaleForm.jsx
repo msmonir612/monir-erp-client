@@ -4,13 +4,14 @@ import { toast } from "react-hot-toast";
 import { createSale } from "../../services/saleService";
 import { getCustomers } from "../../services/customerService";
 import { getProducts } from "../../services/productService";
+import { useNavigate } from "react-router-dom";
 
 const SaleForm = ({ editingSale, onSuccess }) => {
 
   // ==========================
   // State
   // ==========================
-
+  const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
 
@@ -23,6 +24,8 @@ const SaleForm = ({ editingSale, onSuccess }) => {
 
   const [salePrice, setSalePrice] = useState(0);
   const [currentStock,setCurrentStock]= useState(0)
+
+  
 
   const [formData, setFormData] = useState({
 
@@ -600,7 +603,7 @@ setProducts(data);
       }
 
       const saleData = {
-        invoiceNo: formData.invoiceNo,
+        // invoiceNo: formData.invoiceNo,
         customer: formData.customer,
         saleDate: formData.saleDate,
 
@@ -629,13 +632,11 @@ setProducts(data);
         note: formData.note,
       };
 
-      await createSale(saleData);
+    const data = await createSale(saleData);
 
-      toast.success(
-        "Sale Created Successfully"
-      );
+    toast.success(data.message);
 
-      setItems([]);
+      navigate(`/invoice/${data.sale._id}`);
 
       setSelectedProduct("");
 

@@ -7,7 +7,7 @@ import {
   Users,
   ReceiptText,
 } from "lucide-react";
-
+import { IoMdSettings } from "react-icons/io";
 import { useAuth } from "../../context/AuthContext";
 
 
@@ -102,6 +102,16 @@ const Sidebar = () => {
       path: "/expense",
       icon: <ReceiptText size={20} />,
     },
+   ...(isAdmin
+  ? [
+      {
+        title: "Settings",
+        path: "/settings",
+        icon: <IoMdSettings size={20} />,
+      },
+    ]
+  : []
+),
 
   ];
 

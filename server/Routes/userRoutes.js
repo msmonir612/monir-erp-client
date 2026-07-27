@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {
   login,
+  verifyLoginOtp,
   createManager,
   getProfile,
   changePassword,
@@ -11,37 +12,145 @@ const {
   deleteManager,
 } = require("../Controller/userController");
 
+const {
+  requestManagerOtp,
+  verifyManagerOtp,
+} = require("../Controller/managerSetupController");
 
-const {protect,adminOnly} = require("../Middleware/authMiddleware");
+const {
+  getAdminSetupStatus,
+  requestAdminSetupOtp,
+  verifyAdminSetupOtp,
+} = require("../Controller/adminSetupController");
 
-// ========================
-// Public Route
-// ========================
+const {
+  requestForgotPasswordOtp,
+  verifyForgotPasswordOtp,
+  resetPassword,
+} = require("../Controller/forgotPasswordController");
 
-// Login
-router.post("/login", login);
+const {
+  protect,
+  adminOnly,
+} = require("../Middleware/authMiddleware");
 
-// ========================
-// Protected Route
-// ========================
+// ======================================
+// FIRST ADMIN SETUP - PUBLIC
+// ======================================
 
-// নিজের Profile
-router.get("/profile", protect, getProfile);
+// Check whether First Admin setup is allowed
+router.get(
+  "/setup-admin/status",
+  getAdminSetupStatus
+);
 
-// Password Change
-router.put("/change-password", protect, changePassword);
+// Step 1:
+// Admin information → Send Email OTP
+router.post(
+  "/setup-admin/request-otp",
+  requestAdminSetupOtp
+);
 
-// ========================
-// Admin Only
-// ========================
+// Step 2:
+// Verify OTP → Create Admin Account
+router.post(
+  "/setup-admin/verify-otp",
+  verifyAdminSetupOtp
+);
 
-// Manager Create
-router.post("/manager", protect, adminOnly, createManager);
+// ======================================
+// LOGIN - PUBLIC
+// ======================================
+
+// Email + Password + Role → Login OTP
+router.post(
+  "/login",
+  login
+);
+
+// Verify Login OTP + Role → JWT Token
+router.post(
+  "/verify-login-otp",
+  verifyLoginOtp
+);
+
+// ======================================
+// FORGOT PASSWORD - PUBLIC
+// ======================================
+
+// Step 1:
+// Email + Role → Send Password Reset OTP
+router.post(
+  "/forgot-password/request-otp",
+  requestForgotPasswordOtp
+);
+
+// Step 2:
+// Verify Password Reset OTP
+router.post(
+  "/forgot-password/verify-otp",
+  verifyForgotPasswordOtp
+);
+
+// Step 3:
+// Set New Password
+router.post(
+  "/forgot-password/reset",
+  resetPassword
+);
+
+// ======================================
+// PROTECTED ROUTES
+// ======================================
+
+// Current Profile
+router.get(
+  "/profile",
+  protect,
+  getProfile
+);
+
+// Change Password
+router.put(
+  "/change-password",
+  protect,
+  changePassword
+);
+
+// ======================================
+// ADMIN ONLY
+// ======================================
+
+// Manager creation OTP
+router.post(
+  "/manager/request-otp",
+  protect,
+  adminOnly,
+  requestManagerOtp
+);
+
+// Verify Manager OTP
+router.post(
+  "/manager/verify-otp",
+  protect,
+  adminOnly,
+  verifyManagerOtp
+);
 
 // All Managers
-router.get("/managers", protect, adminOnly, getManagers);
+router.get(
+  "/managers",
+  protect,
+  adminOnly,
+  getManagers
+);
 
 // Delete Manager
-router.delete("/managers/:id", protect, adminOnly, deleteManager);
+router.delete(
+  "/managers/:id",
+  protect,
+  adminOnly,
+  deleteManager
+);
 
 module.exports = router;

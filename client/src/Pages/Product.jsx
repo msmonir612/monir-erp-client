@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 
 import Navbar from "../Components/layout/Navbar";
-import ProductForm from "../Components/Product/ProductForm";
+import ProductForm from "../Components/product/ProductForm";
 
 import {
   getProducts,

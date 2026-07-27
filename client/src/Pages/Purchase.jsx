@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Navbar from "../components/layout/Navbar";
-import PurchaseForm from "../components/purchase/PurchaseForm";
-import PurchaseTable from "../components/purchase/PurchaseTable";
+import Navbar from "../Components/layout/Navbar";
+import PurchaseForm from "../Components/purchase/PurchaseForm";
+import PurchaseTable from "../Components/purchase/PurchaseTable";
 
 const Purchase = () => {
 

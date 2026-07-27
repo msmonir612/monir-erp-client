@@ -21,6 +21,7 @@
     "framer-motion": "^12.42.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.2",
+    "nodemailer": "^9.0.3",
     "react-countup": "^6.5.3",
     "recharts": "^3.9.2"
   },

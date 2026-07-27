@@ -40,10 +40,83 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+
+    // ======================================
+    // LOGIN OTP
+    // ======================================
+
+    otp: {
+      type: String,
+      default: null,
+      select: false,
+    },
+
+    otpExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
+    otpAttempts: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+
+    lastOtpSentAt: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
+    // ======================================
+    // FORGOT PASSWORD OTP
+    // ======================================
+
+    resetPasswordOtp: {
+      type: String,
+      default: null,
+      select: false,
+    },
+
+    resetPasswordOtpExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
+    resetPasswordOtpAttempts: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+
+    resetPasswordLastOtpSentAt: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
+    // OTP verify হওয়ার পরে
+    // অল্প সময়ের জন্য password reset করার অনুমতি
+    resetPasswordVerified: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
+
+    resetPasswordVerifiedExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model(
+  "User",
+  userSchema
+);

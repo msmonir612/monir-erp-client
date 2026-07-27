@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import Navbar from "../Components/layout/Navbar";
-import SupplierForm from "../Components/Supplier/SupplierForm";
+import SupplierForm from "../Components/supplier/SupplierForm";
 
 import {
   getSuppliers,
