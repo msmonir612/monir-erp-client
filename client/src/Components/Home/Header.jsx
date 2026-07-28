@@ -87,19 +87,13 @@ const Header = () => {
         <div className="flex items-center gap-2">
 
           <Link
-            to="/login?role=admin"
+            to="/login"
             className="px-4 py-2 rounded-lg border border-green-700 text-green-700 text-sm font-semibold hover:bg-green-50 transition"
           >
-            Admin Login
+             Login
           </Link>
 
-          <Link
-            to="/login?role=manager"
-            className="px-4 py-2 rounded-lg bg-green-700 text-white text-sm font-semibold hover:bg-green-800 transition"
-          >
-            Manager Login
-          </Link>
-
+    
         </div>
 
       </div>

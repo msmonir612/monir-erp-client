@@ -36,19 +36,13 @@ const Hero = () => {
 
             <div className="flex flex-wrap gap-4 mt-9">
               <Link
-                to="/login?role=admin"
+                to="/login"
                 className="bg-green-600 hover:bg-green-700 px-7 py-3.5 rounded-xl font-semibold transition flex items-center gap-2"
               >
-                Admin Login
+                Login
                 <FaArrowRight />
               </Link>
 
-              <Link
-                to="/login?role=manager"
-                className="border border-white/70 hover:bg-white hover:text-slate-900 px-7 py-3.5 rounded-xl font-semibold transition"
-              >
-                Manager Login
-              </Link>
             </div>
           </div>
 
