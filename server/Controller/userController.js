@@ -719,7 +719,67 @@ const getManagers = async (
     });
   }
 };
+// ======================================
+// UPDATE MANAGER STATUS
+// ADMIN ONLY
+// ======================================
 
+const updateManagerStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!["active", "inactive"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid manager status",
+      });
+    }
+
+    const manager = await User.findOne({
+      _id: req.params.id,
+      role: "manager",
+    });
+
+    if (!manager) {
+      return res.status(404).json({
+        success: false,
+        message: "Manager not found",
+      });
+    }
+
+    manager.status = status;
+
+    // Clear any pending login OTP
+    manager.otp = null;
+    manager.otpExpires = null;
+    manager.otpAttempts = 0;
+    manager.lastOtpSentAt = null;
+
+    await manager.save();
+
+    return res.status(200).json({
+      success: true,
+      message:
+        status === "active"
+          ? "Manager Activated Successfully"
+          : "Manager Deactivated Successfully",
+
+      manager: {
+        id: manager._id,
+        name: manager.name,
+        email: manager.email,
+        phone: manager.phone,
+        role: manager.role,
+        status: manager.status,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 // ======================================
 // DELETE MANAGER
 // ======================================
@@ -760,7 +820,6 @@ const deleteManager = async (
 // ======================================
 // EXPORTS
 // ======================================
-
 module.exports = {
   login,
   verifyLoginOtp,
@@ -768,5 +827,6 @@ module.exports = {
   getProfile,
   changePassword,
   getManagers,
+  updateManagerStatus,
   deleteManager,
 };

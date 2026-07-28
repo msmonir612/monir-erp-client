@@ -9,6 +9,7 @@ const {
   getProfile,
   changePassword,
   getManagers,
+  updateManagerStatus,
   deleteManager,
 } = require("../Controller/userController");
 
@@ -144,7 +145,13 @@ router.get(
   adminOnly,
   getManagers
 );
-
+// Update Manager Status
+router.patch(
+  "/managers/:id/status",
+  protect,
+  adminOnly,
+  updateManagerStatus
+);
 // Delete Manager
 router.delete(
   "/managers/:id",

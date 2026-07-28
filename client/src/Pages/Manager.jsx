@@ -8,6 +8,7 @@ import {
   requestManagerOtp,
   verifyManagerOtp,
   getManagers,
+  updateManagerStatus,
   deleteManager,
   getPendingManagerEmail,
   getManagerOtpExpiresIn,
@@ -25,7 +26,7 @@ const Manager = () => {
   const pendingEmail = getPendingManagerEmail();
 
   // ==========================
-  // Load Managers
+  // LOAD MANAGERS
   // ==========================
   const loadManagers = async () => {
     try {
@@ -45,7 +46,7 @@ const Manager = () => {
   }, []);
 
   // ==========================
-  // Restore OTP Step
+  // RESTORE OTP STEP
   // ==========================
   useEffect(() => {
     if (pendingEmail) {
@@ -55,7 +56,7 @@ const Manager = () => {
   }, [pendingEmail]);
 
   // ==========================
-  // OTP Timer
+  // OTP TIMER
   // ==========================
   useEffect(() => {
     if (!otpStep || timeLeft <= 0) return;
@@ -75,7 +76,7 @@ const Manager = () => {
   }, [otpStep, timeLeft]);
 
   // ==========================
-  // Send Manager OTP
+  // SEND MANAGER OTP
   // ==========================
   const handleCreate = async (formData) => {
     try {
@@ -104,7 +105,7 @@ const Manager = () => {
   };
 
   // ==========================
-  // Verify Manager OTP
+  // VERIFY MANAGER OTP
   // ==========================
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
@@ -148,7 +149,7 @@ const Manager = () => {
   };
 
   // ==========================
-  // Cancel OTP
+  // CANCEL OTP
   // ==========================
   const handleCancelOtp = () => {
     clearManagerOtpSession();
@@ -159,17 +160,62 @@ const Manager = () => {
   };
 
   // ==========================
-  // Delete Manager
+  // UPDATE MANAGER STATUS
+  // ==========================
+  const handleStatusChange = async (
+    id,
+    newStatus
+  ) => {
+    const action =
+      newStatus === "inactive"
+        ? "deactivate"
+        : "activate";
+
+    const confirmed = window.confirm(
+      `Are you sure you want to ${action} this manager?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const data = await updateManagerStatus(
+        id,
+        newStatus
+      );
+
+      toast.success(
+        data.message ||
+          `Manager ${
+            newStatus === "active"
+              ? "activated"
+              : "deactivated"
+          } successfully`
+      );
+
+      await loadManagers();
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Failed to update manager status"
+      );
+    }
+  };
+
+  // ==========================
+  // DELETE MANAGER
   // ==========================
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this manager?")) return;
+    if (!window.confirm("Delete this manager?")) {
+      return;
+    }
 
     try {
       const data = await deleteManager(id);
 
       toast.success(data.message);
 
-      loadManagers();
+      await loadManagers();
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
@@ -180,20 +226,20 @@ const Manager = () => {
   };
 
   // ==========================
-  // Format Time
+  // FORMAT TIME
   // ==========================
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const sec = seconds % 60;
 
-    return `${String(minutes).padStart(2, "0")}:${String(
-      sec
-    ).padStart(2, "0")}`;
+    return `${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(sec).padStart(2, "0")}`;
   };
 
   return (
     <div className="space-y-6">
-
       {!otpStep ? (
         <ManagerForm
           onSubmit={handleCreate}
@@ -201,7 +247,6 @@ const Manager = () => {
         />
       ) : (
         <div className="bg-white rounded-xl shadow-md p-6 max-w-xl">
-
           <h2 className="text-xl font-bold mb-2">
             Verify Manager Email
           </h2>
@@ -263,15 +308,14 @@ const Manager = () => {
               Cancel
             </button>
           </form>
-
         </div>
       )}
 
       <ManagerTable
         managers={managers}
         onDelete={handleDelete}
+        onStatusChange={handleStatusChange}
       />
-
     </div>
   );
 };

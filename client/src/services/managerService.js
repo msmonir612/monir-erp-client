@@ -93,6 +93,23 @@ export const getManagers = async () => {
 };
 
 // ======================================
+// UPDATE MANAGER STATUS
+// ======================================
+export const updateManagerStatus = async (
+  id,
+  status
+) => {
+  const { data } = await api.patch(
+    `/users/managers/${id}/status`,
+    {
+      status,
+    }
+  );
+
+  return data;
+};
+
+// ======================================
 // DELETE MANAGER
 // ======================================
 export const deleteManager = async (id) => {
