@@ -14,7 +14,9 @@ const customerRoutes = require("./Routes/customerRoutes");
 const saleRoutes = require("./Routes/saleRoutes");
 const expenseRoutes = require("./Routes/expenseRoutes.js"); 
 const settingsRoutes = require("./Routes/settingsRoutes");
-
+const ownerCashRoutes = require("./Routes/ownerCashRoutes");
+const ownerTransactionRoutes = require("./Routes/ownerTransactionRoutes");
+const investorRoutes = require("./Routes/investorRoutes");
 
 dotenv.config();
 
@@ -43,7 +45,9 @@ app.use("/api/expense", expenseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/stock", stockRoutes);
 app.use("/api/settings", settingsRoutes);
-
+app.use("/api/owner-cash", ownerCashRoutes);
+app.use("/api/owner-transactions",ownerTransactionRoutes);
+app.use("/api/investors",investorRoutes);
 
 const PORT = process.env.PORT || 8080;
 

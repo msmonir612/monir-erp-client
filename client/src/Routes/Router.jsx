@@ -15,6 +15,12 @@ import Customer from "../Pages/Customer";
 import Expense from "../Pages/Expense";
 import Stock from "../Pages/Stock";
 
+import OwnerCash from "../Pages/OwnerCash";
+import OwnerCashFormPage from "../Pages/OwnerCashFormPage";
+import OwnerTransactions from "../Pages/OwnerTransactions";
+
+import Investor from "../Pages/Investor";
+
 import Login from "../Pages/Login";
 import VerifyOtp from "../Pages/VerifyOtp";
 
@@ -30,7 +36,6 @@ import Settings from "../Pages/Settings";
 import Invoice from "../Pages/Invoice";
 
 const router = createBrowserRouter([
-
   // ==========================================
   // PUBLIC WEBSITE
   // ==========================================
@@ -72,22 +77,16 @@ const router = createBrowserRouter([
   // FORGOT PASSWORD
   // ==========================================
 
-  // Step 1:
-  // Email + Role
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
 
-  // Step 2:
-  // Verify Reset OTP
   {
     path: "/forgot-password/verify",
     element: <ForgotPasswordVerify />,
   },
 
-  // Step 3:
-  // Create New Password
   {
     path: "/reset-password",
     element: <ResetPassword />,
@@ -105,7 +104,6 @@ const router = createBrowserRouter([
     ),
 
     children: [
-
       // ======================================
       // ADMIN DASHBOARD
       // ======================================
@@ -132,9 +130,63 @@ const router = createBrowserRouter([
         ),
       },
 
+      {
+        path: "/investors",
+        element: (
+          <AdminRoute>
+            <Investor />
+          </AdminRoute>
+        ),
+      },
+
+      {
+        path: "/settings",
+        element: (
+          <AdminRoute>
+            <Settings />
+          </AdminRoute>
+        ),
+      },
+
       // ======================================
       // ADMIN + MANAGER
       // ======================================
+
+      {
+        path: "/owner-transactions",
+        element: (
+          <ProtectedRoute roles={["admin", "manager"]}>
+            <OwnerTransactions />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/owner-cash",
+        element: (
+          <ProtectedRoute roles={["admin", "manager"]}>
+            <OwnerCash />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/owner-cash/new",
+        element: (
+          <ProtectedRoute roles={["admin", "manager"]}>
+            <OwnerCashFormPage />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/owner-cash/edit/:id",
+        element: (
+          <ProtectedRoute roles={["admin"]}>
+            <OwnerCashFormPage />
+          </ProtectedRoute>
+        ),
+      },
 
       {
         path: "/product",
@@ -207,20 +259,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-
-      // ======================================
-      // ADMIN SETTINGS
-      // ======================================
-
-      {
-        path: "/settings",
-        element: (
-          <AdminRoute>
-            <Settings />
-          </AdminRoute>
-        ),
-      },
-
     ],
   },
 
@@ -238,7 +276,6 @@ const router = createBrowserRouter([
       </div>
     ),
   },
-
 ]);
 
 export default router;
